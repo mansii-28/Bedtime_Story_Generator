@@ -27,21 +27,21 @@ graph TD
     Controller -->|Sanitized Request| Normalizer[Normalizer Agent]
     Normalizer -->|Approved Request| Planner[Planner Agent]
     Planner -->|5-Beat Outline| Storyteller[Storyteller Agent]
-    
+  
     Storyteller -->|Draft Story| Validators[Deterministic Validators]
     Storyteller -->|Draft Story| Judge[LLM Judge]
-    
+  
     Validators --> Decision{Pass?}
     Judge --> Decision
-    
+  
     Decision -->|Yes| Approved[Approved Story]
     Decision -->|No| RevisionRoute{Revision Route}
     Decision -->|Max Revisions| Failed[Failed Validation]
-    
+  
     RevisionRoute -->|Quality/Logic| Reviser[Reviser Agent]
     RevisionRoute -->|Too Long| Compressor[Compressor Agent]
     RevisionRoute -->|Too Short| Expander[Expander Agent]
-    
+  
     Reviser --> Validators
     Compressor --> Validators
     Expander --> Validators
@@ -57,13 +57,14 @@ graph TD
 ## 🚦 Getting Started
 
 ### 1. Backend Setup
+
 1. Navigate to the `backend` directory:
    ```bash
    cd backend
    ```
 2. Install dependencies:
    ```bash
-   pip install -r requirements.txt
+   python3 -m pip install -r requirements.txt
    ```
 3. Run the server (must be on port 8000):
    ```bash
@@ -71,6 +72,7 @@ graph TD
    ```
 
 ### 2. Frontend Setup
+
 1. Navigate to the `frontend` directory:
    ```bash
    cd frontend
@@ -90,6 +92,7 @@ graph TD
 - **Kids View** ([http://localhost:5173/kids](http://localhost:5173/kids)): Simplified, child-friendly story experience. Shows only approved stories with gentle visuals.
 
 ## 🧪 Testing
+
 ```bash
 cd backend
 pytest
@@ -101,7 +104,7 @@ For deeper dives into the system design and policies, refer to the `docs/` direc
 
 - [System Design](docs/SYSTEM_DESIGN.md) — Detailed architecture and agent roles.
 - [Prompt Design](docs/PROMPT_DESIGN.md) — Strategies used for LLM reliability.
-- [Safety & Guardrails](docs/SAFETY.md) — How we protect young readers.
+- [Safety &amp; Guardrails](docs/SAFETY.md) — How we protect young readers.
 - [API Reference](docs/API.md) — Endpoint documentation.
 - [Test Plan](docs/TEST_PLAN.md) — Verification strategy.
 
