@@ -54,37 +54,53 @@ graph TD
 - **Testing**: Pytest, HTTPX.
 - **Tooling**: Python-dotenv, Pydantic-settings.
 
-## 🚦 Getting Started
+## 🚦 Getting Started (Easy Setup)
 
-### 1. Backend Setup
+To run this project locally, follow these steps. You will need [Node.js](https://nodejs.org/) and [Python 3](https://www.python.org/) installed on your computer.
 
-1. Navigate to the `backend` directory:
+### 1. Set up your API Key
+1. In the `backend` folder, find the file named `.env.example`.
+2. Rename it to `.env`.
+3. Open the file and paste your OpenAI API key:
+   ```env
+   OPENAI_API_KEY=your_key_here
+   ```
+
+### 2. Start the Backend (The "Brain")
+1. Open your terminal and navigate to the `backend` folder:
    ```bash
    cd backend
    ```
-2. Install dependencies:
+2. Create and activate a virtual environment:
    ```bash
-   python3 -m pip install -r requirements.txt
+   python3 -m venv .venv
+   source .venv/bin/activate
    ```
-3. Run the server (must be on port 8000):
+3. Install the required tools:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. Start the server:
    ```bash
    uvicorn app.api:app --reload
    ```
+   *The backend is now running at http://localhost:8000*
 
-### 2. Frontend Setup
-
-1. Navigate to the `frontend` directory:
+### 3. Start the Frontend (The "Interface")
+1. Open a **new** terminal window/tab.
+2. Navigate to the `frontend` folder:
    ```bash
    cd frontend
    ```
-2. Install dependencies:
+3. Install the interface components:
    ```bash
    npm install
    ```
-3. Run the development server:
+4. Start the app:
    ```bash
    npm run dev
    ```
+   *The app is now running! Open the link shown in your terminal (usually http://localhost:5173).*
 
 ## 📖 Available Views
 
