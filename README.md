@@ -24,17 +24,27 @@ The system follows a modular, pipe-and-filter architecture where each stage is h
 graph TD
     User((User)) -->|Preferences| API[FastAPI]
     API -->|StoryRequest| Controller[Controller Agent]
-    Controller -->|Initial Config| Normalizer[Normalizer Agent]
-    Normalizer -->|Sanitized Request| Planner[Planner Agent]
+    Controller -->|Sanitized Request| Normalizer[Normalizer Agent]
+    Normalizer -->|Approved Request| Planner[Planner Agent]
     Planner -->|5-Beat Outline| Storyteller[Storyteller Agent]
-    Storyteller -->|Draft Story| PipelineLoop{Validation Loop}
-    PipelineLoop -->|Passed| Approved[Final approved story]
-    PipelineLoop -->|Failed/Revision| Reviser[Reviser Agent]
-    PipelineLoop -->|Too Long| Compressor[Compressor Agent]
-    PipelineLoop -->|Too Short| Expander[Expander Agent]
-    Reviser --> PipelineLoop
-    Compressor --> PipelineLoop
-    Expander --> PipelineLoop
+    
+    Storyteller -->|Draft Story| Validators[Deterministic Validators]
+    Storyteller -->|Draft Story| Judge[LLM Judge]
+    
+    Validators --> Decision{Pass?}
+    Judge --> Decision
+    
+    Decision -->|Yes| Approved[Approved Story]
+    Decision -->|No| RevisionRoute{Revision Route}
+    Decision -->|Max Revisions| Failed[Failed Validation]
+    
+    RevisionRoute -->|Quality/Logic| Reviser[Reviser Agent]
+    RevisionRoute -->|Too Long| Compressor[Compressor Agent]
+    RevisionRoute -->|Too Short| Expander[Expander Agent]
+    
+    Reviser --> Validators
+    Compressor --> Validators
+    Expander --> Validators
 ```
 
 ## 🛠️ Tech Stack

@@ -11,16 +11,24 @@ graph TD
     Controller -->|Sanitized Request| Normalizer[Normalizer Agent]
     Normalizer -->|Approved Request| Planner[Planner Agent]
     Planner -->|5-Beat Outline| Storyteller[Storyteller Agent]
-    Storyteller -->|Draft 1| Loop{Validation Loop}
     
-    Loop -->|Passed| Approved[Approved Story]
-    Loop -->|Failed| Reviser[Reviser Agent]
-    Loop -->|Too Long| Compressor[Compressor Agent]
-    Loop -->|Too Short| Expander[Expander Agent]
+    Storyteller -->|Draft Story| Validators[Deterministic Validators]
+    Storyteller -->|Draft Story| Judge[LLM Judge]
     
-    Reviser --> Loop
-    Compressor --> Loop
-    Expander --> Loop
+    Validators --> Decision{Pass?}
+    Judge --> Decision
+    
+    Decision -->|Yes| Approved[Approved Story]
+    Decision -->|No| RevisionRoute{Revision Route}
+    Decision -->|Max Revisions| Failed[Failed Validation]
+    
+    RevisionRoute -->|Quality/Logic| Reviser[Reviser Agent]
+    RevisionRoute -->|Too Long| Compressor[Compressor Agent]
+    RevisionRoute -->|Too Short| Expander[Expander Agent]
+    
+    Reviser --> Validators
+    Compressor --> Validators
+    Expander --> Validators
 ```
 
 ## Agent Roles
